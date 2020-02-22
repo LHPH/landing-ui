@@ -1,0 +1,30 @@
+$color: rgb(30,123,100);
+
+h1{
+    color: $color;
+}
+
+.fieldNamesLabel{
+    font-family: monospace;
+    font-size: 17px;
+}
+
+.fieldSet{
+    display: block;
+}
+
+.fieldSet > div{
+    margin: 3px 3px 3px 3px;
+}
+
+.defaultTextField{
+  width: 20%;
+  padding: 8px 16px;
+  //margin: 8px 0;
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  border-radius: 4px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
