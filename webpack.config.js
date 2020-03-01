@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 module.exports = {
     entry: './src/index.js',
     output:{
@@ -19,10 +21,10 @@ module.exports = {
             },
             {
                 test: /\.scss$/, 
-                loader: [
-                    MiniCSSExtractPlugin.loader,
-                    "css-loader",
-                    'sass-loader'
+                use:[
+                    {loader: MiniCSSExtractPlugin.loader},
+                    {loader: 'css-loader'},
+                    {loader: 'sass-loader'}
                 ]
             }
         ]
@@ -36,7 +38,9 @@ module.exports = {
             base: '/landings'
         }),
         new MiniCSSExtractPlugin({
-            filename: 'estilos.css'
+            filename: 'estilos.css',
+            chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
         })
     ]
 }//https://github.com/babel/babel/issues/6808
+//https://developerhandbook.com/webpack/how-to-configure-scss-modules-for-webpack/

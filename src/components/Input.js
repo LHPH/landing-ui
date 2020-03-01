@@ -11,10 +11,10 @@ class Input extends Component{
         return(
            
             <div>
-                <input id={this.props.id} maxLength={this.props.maxLength} minLength={this.props.minLength}
-                placeholder={this.props.placeholder} readOnly={this.props.isReadOnly}
-                pattern={this.props.pattern} type={this.props.type} value={this.props.value}
-                onChange={this.props.handleChange} className={this.props.className}/>
+                <input id={this.props.id} placeholder={this.props.placeholder}
+                readOnly={this.props.isReadOnly} type={this.props.type} value={this.props.value}
+                onChange={this.props.handleChange} className={this.props.className}
+                disabled={this.props.isDisabled}/>
             </div>
         );
     }
