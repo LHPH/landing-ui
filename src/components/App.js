@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/styles.scss';
-import Form from './Form';
+import FormRedux from './Form';
 
 
 class App extends Component{
@@ -12,7 +12,7 @@ class App extends Component{
                     <h1>My React App</h1>
                 </div>
                 <div>
-                    <Form />
+                    <FormRedux />
                 </div>
             </div>
         );

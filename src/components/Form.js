@@ -4,6 +4,8 @@ import Button from './Button';
 import styles from '../styles/styles.scss';
 import Functions from '../util/Functions';
 import {messages} from '../util/Messages';
+import { connect } from "react-redux";
+import { sendLanding } from '../redux/actions';
 
 
 class Form extends Component{
@@ -23,7 +25,8 @@ class Form extends Component{
                 type: 'text',
                 className: 'defaultTextField',
                 value: '',
-                isDisabled:false
+                isDisabled:false,
+                isOptional: false
             },
             secondNameInputConfig:{
                 id: 'secondNameInput',
@@ -35,7 +38,8 @@ class Form extends Component{
                 type: 'text',
                 className: 'defaultTextField',
                 value: '',
-                isDisabled:false
+                isDisabled:false,
+                isOptional: true
             },
             lastNameInputConfig:{
                 id: 'lastNameInput',
@@ -47,7 +51,8 @@ class Form extends Component{
                 type: 'text',
                 className: 'defaultTextField',
                 value: '',
-                isDisabled:false
+                isDisabled:false,
+                isOptional: false
             },
             lastSecondNameInputConfig:{
                 id: 'lastSecondNameInput',
@@ -59,7 +64,8 @@ class Form extends Component{
                 type: 'text',
                 className: 'defaultTextField',
                 value: '',
-                isDisabled:false
+                isDisabled:false,
+                isOptional: true
             },
             emailInputConfig:{
                 id: 'emailInput',
@@ -71,7 +77,8 @@ class Form extends Component{
                 type: 'text',
                 className: 'defaultTextField',
                 value: '',
-                isDisabled:false
+                isDisabled:false,
+                isOptional: false
             },
             homePhoneInputConfig:{
                 id: 'homePhoneInput',
@@ -83,7 +90,8 @@ class Form extends Component{
                 type: 'text',
                 className: 'defaultTextField',
                 value: '',
-                isDisabled:false
+                isDisabled:false,
+                isOptional: true
             },
             cellPhoneInputConfig:{
                 id: 'cellPhoneInput',
@@ -95,7 +103,8 @@ class Form extends Component{
                 type: 'text',
                 className: 'defaultTextField',
                 value: '',
-                isDisabled:false
+                isDisabled:false,
+                isOptional: false
             },
             buttonAcceptConfig:{
                 id: 'buttonAccept',
@@ -116,6 +125,30 @@ class Form extends Component{
             }
 
         }
+
+        this.landing = {
+            firstName: null,
+            secondName: null,
+            lastName: null,
+            lastSecondName: null,
+            email: null,
+            homePhone: null,
+            cellPhone: null
+        }
+
+        if(this.props.landing!==undefined && this.props.landing.firstName!=undefined){
+
+            this.landing.firstName = this.props.landing.firstName;
+            this.landing.secondName = this.props.landing.secondName;
+            this.landing.lastName = this.props.landing.lastName;
+            this.landing.lastSecondName = this.props.landing.lastSecondName;
+            this.landing.email = this.props.landing.email;
+            this.landing.homePhone = this.props.landing.homePhone;
+            this.landing.cellPhone = this.props.landing.cellPhone;
+        }
+
+        console.log(this.landing);
+        
 
         this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
         this.handleChangeSecondName = this.handleChangeSecondName.bind(this);
@@ -229,11 +262,39 @@ class Form extends Component{
 
         switch(Functions.validateMaxAndMinLength(valueFirstName,min,max)){
             case 1:
-                return messages.validation.firstName.minLength;
+                return messages.validation.firstName.minLength+min;
             case 2:
-                return messages.validation.firstName.maxLength;
+                return messages.validation.firstName.maxLength+max;
             default:
                 return '';
+        }
+    }
+
+    validateSecondName(){
+        
+        let valueSecondName = document.getElementById(this.state.secondNameInputConfig.id).value;
+        let pattern = this.state.secondNameInputConfig.pattern;
+        let min = this.state.secondNameInputConfig.minLength;
+        let max = this.state.secondNameInputConfig.maxLength;
+
+        if(valueSecondName==='' && this.state.secondNameInputConfig.isOptional){
+
+            return '';
+        }
+        else{
+
+            if(!Functions.validatePattern(valueSecondName,pattern)){
+                return messages.validation.secondName.format;
+            }
+    
+            switch(Functions.validateMaxAndMinLength(valueSecondName,min,max)){
+                case 1:
+                    return messages.validation.secondName.minLength+min;
+                case 2:
+                    return messages.validation.secondName.maxLength+max;
+                default:
+                    return '';
+            }
         }
     }
 
@@ -250,34 +311,146 @@ class Form extends Component{
 
         switch(Functions.validateMaxAndMinLength(valueLastName,min,max)){
             case 1:
-                return messages.validation.lastName.minLength;
+                return messages.validation.lastName.minLength+min;
             case 2:
-                return messages.validation.lastName.maxLength;
+                return messages.validation.lastName.maxLength+max;
+            default:
+                return '';
+        }
+    }
+
+    validateLastSecondName(){
+        
+        let valueLastSecondName = document.getElementById(this.state.lastSecondNameInputConfig.id).value;
+        let pattern = this.state.lastSecondNameInputConfig.pattern;
+        let min = this.state.lastSecondNameInputConfig.minLength;
+        let max = this.state.lastSecondNameInputConfig.maxLength;
+
+        if(valueLastSecondName==='' && this.state.lastSecondNameInputConfig.isOptional){
+
+            return '';
+        }
+        else{
+
+            if(!Functions.validatePattern(valueLastSecondName,pattern)){
+                return messages.validation.lastSecondName.format;
+            }
+    
+            switch(Functions.validateMaxAndMinLength(valueLastSecondName,min,max)){
+                case 1:
+                    return messages.validation.lastSecondName.minLength+min;
+                case 2:
+                    return messages.validation.lastSecondName.maxLength+max;
+                default:
+                    return '';
+            }
+        }
+    }
+
+    validateEmail(){
+        
+        let valueEmail = document.getElementById(this.state.emailInputConfig.id).value;
+        let pattern = this.state.emailInputConfig.pattern;
+        let min = this.state.emailInputConfig.minLength;
+        let max = this.state.emailInputConfig.maxLength;
+
+        if(!Functions.validatePattern(valueEmail,pattern)){
+            return messages.validation.email.format;
+        }
+
+        switch(Functions.validateMaxAndMinLength(valueEmail,min,max)){
+            case 1:
+                return messages.validation.email.minLength+min;
+            case 2:
+                return messages.validation.email.maxLength+max;
+            default:
+                return '';
+        }
+    }
+
+    validateHomePhone(){
+        
+        let valueHomePhone = document.getElementById(this.state.homePhoneInputConfig.id).value;
+        let pattern = this.state.homePhoneInputConfig.pattern;
+        let min = this.state.homePhoneInputConfig.minLength;
+        let max = this.state.homePhoneInputConfig.maxLength;
+
+        if(valueHomePhone==='' && this.state.homePhoneInputConfig.isOptional){
+
+            return '';
+        }
+        else{
+
+            if(!Functions.validatePattern(valueHomePhone,pattern)){
+                return messages.validation.homePhone.format;
+            }
+    
+            switch(Functions.validateMaxAndMinLength(valueHomePhone,min,max)){
+                case 1:
+                    return messages.validation.homePhone.minLength+min;
+                case 2:
+                    return messages.validation.homePhone.maxLength+max;
+                default:
+                    return '';
+            }
+        }
+    }
+
+    validateCellPhone(){
+        
+        let valueCellPhone = document.getElementById(this.state.cellPhoneInputConfig.id).value;
+        let pattern = this.state.cellPhoneInputConfig.pattern;
+        let min = this.state.cellPhoneInputConfig.minLength;
+        let max = this.state.cellPhoneInputConfig.maxLength;
+
+        if(!Functions.validatePattern(valueCellPhone,pattern)){
+            return messages.validation.cellPhone.format;
+        }
+
+        switch(Functions.validateMaxAndMinLength(valueCellPhone,min,max)){
+            case 1:
+                return messages.validation.cellPhone.minLength+min;
+            case 2:
+                return messages.validation.cellPhone.maxLength+max;
             default:
                 return '';
         }
     }
 
 
-
     onClickButtonAccept(){
 
         let resultFirstName=this.validateFirstName();
+        let resultSecondName = this.validateSecondName();
         let resultLastName = this.validateLastName();
+        let resultLastSecondName = this.validateLastSecondName();
+        let resultEmail = this.validateEmail();
+        let resultHomePhone = this.validateHomePhone();
+        let resultCellPhone = this.validateCellPhone();
 
-        let valueLastSecondName = document.getElementById(this.state.lastSecondNameInputConfig.id).value;
-        let valueEmail = document.getElementById(this.state.emailInputConfig.id).value;
-        let valueHomePhone = document.getElementById(this.state.homePhoneInputConfig.id).value;
-        let valueCellPhone = document.getElementById(this.state.cellPhoneInputConfig.id).value;
+        var array = [resultFirstName,resultSecondName,resultLastName,resultLastSecondName,
+        resultEmail,resultHomePhone,resultCellPhone];
 
-        this.setState(prevState=>({
-            errors:{
-                ...prevState.errors,
-                firstName: resultFirstName,
-                lastName: resultLastName
-            }
-        }));
-        
+        var ind=array.find((element)=>element!=='');
+
+        if(ind==undefined){
+            console.log("Pasa");
+            this.props.saveData(this.landing);
+        }
+        else{
+            this.setState(prevState=>({
+                errors:{
+                    ...prevState.errors,
+                    firstName: resultFirstName,
+                    secondName: resultSecondName,
+                    lastName: resultLastName,
+                    lastSecondName: resultLastSecondName,
+                    email: resultEmail,
+                    homePhone: resultHomePhone,
+                    cellPhone: resultCellPhone
+                }
+            }));
+        } 
     }
 
     render(){
@@ -312,6 +485,9 @@ class Form extends Component{
                                 className={this.state.secondNameInputConfig.className}
                                 isDisabled={this.state.secondNameInputConfig.isDisabled}
                             />
+                            <div className={this.state.errors.secondName===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                                <span>{this.state.errors.secondName}</span>
+                            </div>
 
                             <div><label className="fieldNamesLabel">Apellido Paterno:</label></div>
                             <Input 
@@ -339,6 +515,9 @@ class Form extends Component{
                                 className={this.state.lastSecondNameInputConfig.className}
                                 isDisabled={this.state.lastSecondNameInputConfig.isDisabled}
                             />
+                            <div className={this.state.errors.lastSecondName===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                                <span>{this.state.errors.lastSecondName}</span>
+                            </div>
 
                             <div><label className="fieldNamesLabel">Email:</label></div>
                             <Input 
@@ -351,6 +530,9 @@ class Form extends Component{
                                 className={this.state.emailInputConfig.className}
                                 isDisabled={this.state.emailInputConfig.isDisabled}
                             />
+                            <div className={this.state.errors.email===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                                <span>{this.state.errors.email}</span>
+                            </div>
 
                             <div><label className="fieldNamesLabel">Telefono de Casa:</label></div>
                             <Input 
@@ -363,6 +545,9 @@ class Form extends Component{
                                 className={this.state.homePhoneInputConfig.className}
                                 isDisabled={this.state.homePhoneInputConfig.isDisabled}
                             />
+                            <div className={this.state.errors.homePhone===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                                <span>{this.state.errors.homePhone}</span>
+                            </div>
 
                             <div><label className="fieldNamesLabel">Telefono Movil:</label></div>
                             <Input 
@@ -375,6 +560,9 @@ class Form extends Component{
                                 className={this.state.cellPhoneInputConfig.className}
                                 isDisabled={this.state.cellPhoneInputConfig.isDisabled}
                             />
+                            <div className={this.state.errors.cellPhone===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                                <span>{this.state.errors.cellPhone}</span>
+                            </div>
                             <br />
                             <Button name={this.state.buttonAcceptConfig.name}
                                     className={this.state.buttonAcceptConfig.className}
@@ -482,4 +670,16 @@ class Form extends Component{
 }
 
 
-export default Form;
+function mapDispatchToProps(dispatch){
+    return {
+        saveData: landing => dispatch(sendLanding(landing))
+    }
+}
+
+const mapStateToProps = state =>{
+    return {landing: state.landing};
+}
+
+const FormRedux = connect(mapStateToProps,mapDispatchToProps)(Form);
+
+export default FormRedux;
