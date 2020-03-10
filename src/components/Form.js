@@ -7,6 +7,8 @@ import {messages} from '../util/Messages';
 import { connect } from "react-redux";
 import { sendLanding } from '../redux/actions';
 
+import CheckImage from '../img/check.png'
+
 
 class Form extends Component{
 
@@ -112,6 +114,18 @@ class Form extends Component{
                 className: 'buttonAccept',
                 isDisabled: false
             },
+            buttonCancelConfig:{
+                id: 'buttonCancel',
+                name: 'Cancelar',
+                className: 'buttonCancel',
+                isDisabled: false
+            },
+            buttonConfirmConfig:{
+                id: 'buttonConfirm',
+                name: 'Confirmar',
+                className: 'buttonConfirm',
+                isDisabled: false
+            },
             mode:'input',
             folio:0,
             errors:{
@@ -157,7 +171,10 @@ class Form extends Component{
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleChangeHomePhone = this.handleChangeHomePhone.bind(this);
         this.handleChangeCellPhone = this.handleChangeCellPhone.bind(this);
+
         this.onClickButtonAccept = this.onClickButtonAccept.bind(this);
+        this.onClickButtonCancel = this.onClickButtonCancel.bind(this);
+        this.onClickButtonConfirm = this.onClickButtonConfirm.bind(this);
 
         this.validateFirstName = this.validateFirstName.bind(this);
         this.validateSecondName = this.validateSecondName.bind(this);
@@ -166,6 +183,8 @@ class Form extends Component{
         this.validateEmail = this.validateEmail.bind(this);
         this.validateHomePhone = this.validateHomePhone.bind(this);
         this.validateCellPhone = this.validateCellPhone.bind(this);
+
+        this.enableOrDisabledFields = this.enableOrDisabledFields.bind(this);
     }
 
     componentDidMount(){
@@ -417,6 +436,40 @@ class Form extends Component{
         }
     }
 
+    enableOrDisabledFields(disabled=false,mode='input'){
+
+        this.setState(prevState=>({
+            firstNameInputConfig:{
+                ...prevState.firstNameInputConfig,
+                isDisabled: disabled
+            },
+            secondNameInputConfig:{
+                ...prevState.secondNameInputConfig,
+                isDisabled: disabled
+            },
+            lastNameInputConfig:{
+                ...prevState.lastNameInputConfig,
+                isDisabled: disabled
+            },
+            lastSecondNameInputConfig:{
+                ...prevState.lastSecondNameInputConfig,
+                isDisabled: disabled
+            }, 
+            emailInputConfig:{
+                ...prevState.emailInputConfig,
+                isDisabled: disabled
+            },
+            homePhoneInputConfig:{
+                ...prevState.homePhoneInputConfig,
+                isDisabled: disabled
+            },
+            cellPhoneInputConfig:{
+                ...prevState.cellPhoneInputConfig,
+                isDisabled: disabled
+            },
+            mode: mode
+        }));
+    }
 
     onClickButtonAccept(){
 
@@ -434,8 +487,8 @@ class Form extends Component{
         var ind=array.find((element)=>element!=='');
 
         if(ind==undefined){
-            console.log("Pasa");
             this.props.saveData(this.landing);
+            this.enableOrDisabledFields(true,'confirm');
         }
         else{
             this.setState(prevState=>({
@@ -453,12 +506,18 @@ class Form extends Component{
         } 
     }
 
+    onClickButtonCancel(){
+        this.enableOrDisabledFields(false,'input');
+    }
+
+    onClickButtonConfirm(){
+
+    }
+
     render(){
         return(
             <div className='parent'>
-                { this.state.mode==='input' && 
                     <div className='fieldSet'>
-
                             <div><label className={'fieldNamesLabel'}>Primer Nombre:</label></div>
                             <Input  
                                 id={this.state.firstNameInputConfig.id}
@@ -564,105 +623,27 @@ class Form extends Component{
                                 <span>{this.state.errors.cellPhone}</span>
                             </div>
                             <br />
-                            <Button name={this.state.buttonAcceptConfig.name}
-                                    className={this.state.buttonAcceptConfig.className}
-                                    isDisabled={this.state.buttonAcceptConfig.isDisabled}
-                                    onClick={this.onClickButtonAccept}/>
+                            { this.state.mode==='input' && 
+                                <Button name={this.state.buttonAcceptConfig.name}
+                                        className={this.state.buttonAcceptConfig.className}
+                                        isDisabled={this.state.buttonAcceptConfig.isDisabled}
+                                        onClick={this.onClickButtonAccept}/>
+                            }
+                            { this.state.mode==='confirm' &&
+                                <div className={'containerButtonCancelAndConfirm'}>
+                                    <Button name={this.state.buttonCancelConfig.name}
+                                        className={this.state.buttonCancelConfig.className}
+                                        isDisabled={this.state.buttonCancelConfig.isDisabled}
+                                        onClick={this.onClickButtonCancel}/>
+                                    <Button name={this.state.buttonConfirmConfig.name}
+                                        className={this.state.buttonConfirmConfig.className}
+                                        isDisabled={this.state.buttonConfirmConfig.isDisabled}
+                                        onClick={this.onClickButtonConfirm} />
+                                </div>
+                            }
+                            <img src={CheckImage} />
 
                     </div>
-                }
-                { this.state.mode==='confirm' && 
-                    <div>
-                        <div><label className="fieldNamesLabel">Primer Nombre:</label></div>
-                            <Input  
-                                id={this.state.firstNameInputConfig.id}
-                                placeholder={this.state.firstNameInputConfig.placeholder} 
-                                isReadOnly={this.state.firstNameInputConfig.isReadOnly}
-                                type={this.state.firstNameInputConfig.type} 
-                                value={this.state.firstNameInputConfig.value} 
-                                handleChange = {this.handleChangeFirstName}
-                                className={this.state.firstNameInputConfig.className}
-                                isDisabled={this.state.firstNameInputConfig.isDisabled}
-                            />
-
-                            <div><label className="fieldNamesLabel">Segundo Nombre:</label></div>
-                            <Input 
-                                id={this.state.secondNameInputConfig.id}
-                                placeholder={this.state.secondNameInputConfig.placeholder} 
-                                isReadOnly={this.state.secondNameInputConfig.isReadOnly}
-                                type={this.state.secondNameInputConfig.type} 
-                                value={this.state.secondNameInputConfig.value} 
-                                handleChange = {this.handleChangeSecondName}
-                                className={this.state.secondNameInputConfig.className}
-                                isDisabled={this.state.secondNameInputConfig.isDisabled}
-                            />
-
-                            <div><label className="fieldNamesLabel">Apellido Paterno:</label></div>
-                            <Input 
-                                id={this.state.lastNameInputConfig.id}
-                                placeholder={this.state.lastNameInputConfig.placeholder} 
-                                isReadOnly={this.state.lastNameInputConfig.isReadOnly}
-                                type={this.state.lastNameInputConfig.type} 
-                                value={this.state.lastNameInputConfig.value} 
-                                handleChange = {this.handleChangeLastName}
-                                className={this.state.lastNameInputConfig.className}
-                                isDisabled={this.state.lastNameInputConfig.isDisabled}
-                            />
-
-                            <div><label className="fieldNamesLabel">Apellido Materno:</label></div>
-                            <Input 
-                                id={this.state.lastSecondNameInputConfig.id}
-                                placeholder={this.state.lastSecondNameInputConfig.placeholder} 
-                                isReadOnly={this.state.lastSecondNameInputConfig.isReadOnly}
-                                type={this.state.lastSecondNameInputConfig.type} 
-                                value={this.state.lastSecondNameInputConfig.value} 
-                                handleChange = {this.handleChangeLastSecondName}
-                                className={this.state.lastSecondNameInputConfig.className}
-                                isDisabled={this.state.lastSecondNameInputConfig.isDisabled}
-                            />
-
-                            <div><label className="fieldNamesLabel">Email:</label></div>
-                            <Input 
-                                id={this.state.emailInputConfig.id}
-                                placeholder={this.state.emailInputConfig.placeholder} 
-                                isReadOnly={this.state.emailInputConfig.isReadOnly}
-                                type={this.state.emailInputConfig.type} 
-                                value={this.state.emailInputConfig.value} 
-                                handleChange = {this.handleChangeEmail}
-                                className={this.state.emailInputConfig.className}
-                                isDisabled={this.state.emailInputConfig.isDisabled}
-                            />
-
-                            <div><label className="fieldNamesLabel">Telefono de Casa:</label></div>
-                            <Input 
-                                id={this.state.homePhoneInputConfig.id}
-                                placeholder={this.state.homePhoneInputConfig.placeholder} 
-                                isReadOnly={this.state.homePhoneInputConfig.isReadOnly}
-                                type={this.state.homePhoneInputConfig.type} 
-                                value={this.state.homePhoneInputConfig.value} 
-                                handleChange = {this.handleChangeHomePhone}
-                                className={this.state.homePhoneInputConfig.className}
-                                isDisabled={this.state.homePhoneInputConfig.isDisabled}
-                            />
-
-                            <div><label className="fieldNamesLabel">Telefono Movil:</label></div>
-                            <Input 
-                                id={this.state.cellPhoneInputConfig.id}
-                                placeholder={this.state.cellPhoneInputConfig.placeholder} 
-                                isReadOnly={this.state.cellPhoneInputConfig.isReadOnly}
-                                type={this.state.cellPhoneInputConfig.type} 
-                                value={this.state.cellPhoneInputConfig.value} 
-                                handleChange = {this.handleChangeCellPhone}
-                                className={this.state.cellPhoneInputConfig.className}
-                                isDisabled={this.state.cellPhoneInputConfig.isDisabled}
-                            />
-
-                            <Button name={this.state.buttonAcceptConfig.name}
-                                    className={this.state.buttonAcceptConfig.className}
-                                    isDisabled={this.state.buttonAcceptConfig.isDisabled}
-                                    onClick={this.onClickButtonAccept}/>
-                    </div>
-                }
             </div>
         );
     }

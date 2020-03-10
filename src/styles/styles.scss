@@ -47,12 +47,35 @@ h1{
     display: block;
 }
 
+.containerButtonCancelAndConfirm{
+    display: inline-flex
+}
+
 .buttonAccept{
     border-radius: 12px;
     background-color: rgb(30,123,100);
     color: white;
     padding: 15px 32px;
     outline: none;
+    cursor: pointer;
+}
+
+.buttonCancel{
+    border-radius: 12px;
+    background-color: rgb(108, 131, 125);
+    color: white;
+    padding: 15px 32px;
+    outline: none;
+    cursor: pointer;
+}
+
+.buttonConfirm{
+    border-radius: 12px;
+    background-color:rgb(30, 123, 154);
+    color: white;
+    padding: 15px 32px;
+    outline: none;
+    cursor: pointer;
 }
 
 .buttonAccept:hover{
