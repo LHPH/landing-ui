@@ -36,6 +36,9 @@ const messages={
             minLength:'El telefono no tiene la longitud minima requerida: ',
             maxLength: 'El telefono no tiene la longitund maxima requerida: '
         }
+    },
+    viewUser:{
+        acceptanceView: 'La informacion de la Landing ha sido guardada exitosamente'
     }
 }
 

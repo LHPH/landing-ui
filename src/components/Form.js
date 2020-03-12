@@ -1,14 +1,11 @@
 import React, { Component} from 'react';
 import Input from './Input';
 import Button from './Button';
-import styles from '../styles/styles.scss';
+import  '../styles/styles.scss';
 import Functions from '../util/Functions';
 import {messages} from '../util/Messages';
 import { connect } from "react-redux";
 import { sendLanding } from '../redux/actions';
-
-import CheckImage from '../img/check.png'
-
 
 class Form extends Component{
 
@@ -511,7 +508,7 @@ class Form extends Component{
     }
 
     onClickButtonConfirm(){
-
+        this.props.handleView('ACCEPTANCE_SAVE_LANDING');
     }
 
     render(){
@@ -641,7 +638,6 @@ class Form extends Component{
                                         onClick={this.onClickButtonConfirm} />
                                 </div>
                             }
-                            <img src={CheckImage} />
 
                     </div>
             </div>

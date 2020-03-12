@@ -1,11 +1,12 @@
 $color: rgb(30,123,100);
+$font-family: monospace;
 
 h1{
     color: $color;
 }
 
 .fieldNamesLabel{
-    font-family: monospace;
+    font-family: $font-family;
     font-size: 17px;
 }
 
@@ -53,7 +54,7 @@ h1{
 
 .buttonAccept{
     border-radius: 12px;
-    background-color: rgb(30,123,100);
+    background-color: $color;
     color: white;
     padding: 15px 32px;
     outline: none;
@@ -81,6 +82,14 @@ h1{
 .buttonAccept:hover{
     background-color: rgb(41, 150, 123);
 }
+
+.acceptanceViewMessage{
+    font-size: 20px;
+    color: $color;
+    font-family: $font-family;
+}
+
+
 
 @media only screen and (min-width: 1024px) { 
 
