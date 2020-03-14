@@ -1,11 +1,12 @@
 import React, { Component} from 'react';
 import Input from './Input';
 import Button from './Button';
-import  '../styles/styles.scss';
+import  '../../css/styles.scss';
 import Functions from '../util/Functions';
 import {messages} from '../util/Messages';
 import { connect } from "react-redux";
 import { sendLanding } from '../redux/actions';
+import LandingServices from '../services/LandingServices';
 
 class Form extends Component{
 
@@ -126,13 +127,13 @@ class Form extends Component{
             mode:'input',
             folio:0,
             errors:{
-                firstName:'',
-                secondName:'',
-                lastName:'',
-                secondLastName:'',
-                email:'',
-                homePhone:'',
-                cellPhone:'' 
+                firstName:null,
+                secondName:null,
+                lastName:null,
+                secondLastName:null,
+                email:null,
+                homePhone:null,
+                cellPhone:null 
             }
 
         }
@@ -156,10 +157,7 @@ class Form extends Component{
             this.landing.email = this.props.landing.email;
             this.landing.homePhone = this.props.landing.homePhone;
             this.landing.cellPhone = this.props.landing.cellPhone;
-        }
-
-        console.log(this.landing);
-        
+        }        
 
         this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
         this.handleChangeSecondName = this.handleChangeSecondName.bind(this);
@@ -182,6 +180,7 @@ class Form extends Component{
         this.validateCellPhone = this.validateCellPhone.bind(this);
 
         this.enableOrDisabledFields = this.enableOrDisabledFields.bind(this);
+        Form.setStyleMsgErrorField = Form.setStyleMsgErrorField.bind(this);
     }
 
     componentDidMount(){
@@ -484,6 +483,15 @@ class Form extends Component{
         var ind=array.find((element)=>element!=='');
 
         if(ind==undefined){
+            
+            this.landing.firstName = this.state.firstNameInputConfig.value;
+            this.landing.secondName = this.state.secondNameInputConfig.value;
+            this.landing.lastName = this.state.lastNameInputConfig.value;
+            this.landing.lastSecondName = this.state.lastSecondNameInputConfig.value;
+            this.landing.email = this.state.emailInputConfig.value;
+            this.landing.homePhone = this.state.homePhoneInputConfig.value;
+            this.landing.cellPhone = this.state.cellPhoneInputConfig.value;
+
             this.props.saveData(this.landing);
             this.enableOrDisabledFields(true,'confirm');
         }
@@ -508,14 +516,19 @@ class Form extends Component{
     }
 
     onClickButtonConfirm(){
-        this.props.handleView('ACCEPTANCE_SAVE_LANDING');
+        LandingServices.saveLanding(this.props.landing,this.props.handleView);
+        //this.props.handleView('ACCEPTANCE_SAVE_LANDING');
+    }
+
+    static setStyleMsgErrorField(value){
+        return (value==='' || value==null);
     }
 
     render(){
         return(
             <div className='parent'>
                     <div className='fieldSet'>
-                            <div><label className={'fieldNamesLabel'}>Primer Nombre:</label></div>
+                            <div><label className={'fieldNamesLabel'}>*Primer Nombre:</label></div>
                             <Input  
                                 id={this.state.firstNameInputConfig.id}
                                 placeholder={this.state.firstNameInputConfig.placeholder} 
@@ -525,8 +538,9 @@ class Form extends Component{
                                 handleChange = {this.handleChangeFirstName}
                                 className={this.state.firstNameInputConfig.className}
                                 isDisabled={this.state.firstNameInputConfig.isDisabled}
+                                error={this.state.errors.firstName}
                             />
-                            <div className={this.state.errors.firstName===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                            <div className={Form.setStyleMsgErrorField(this.state.errors.firstName)?'msgErrorFieldHidden':'msgErrorFieldShow'}>
                                 <span>{this.state.errors.firstName}</span>
                             </div>
 
@@ -540,12 +554,13 @@ class Form extends Component{
                                 handleChange = {this.handleChangeSecondName}
                                 className={this.state.secondNameInputConfig.className}
                                 isDisabled={this.state.secondNameInputConfig.isDisabled}
+                                error={this.state.errors.secondName}
                             />
-                            <div className={this.state.errors.secondName===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                            <div className={Form.setStyleMsgErrorField(this.state.errors.secondName)?'msgErrorFieldHidden':'msgErrorFieldShow'}>
                                 <span>{this.state.errors.secondName}</span>
                             </div>
 
-                            <div><label className="fieldNamesLabel">Apellido Paterno:</label></div>
+                            <div><label className="fieldNamesLabel">*Apellido Paterno:</label></div>
                             <Input 
                                 id={this.state.lastNameInputConfig.id}
                                 placeholder={this.state.lastNameInputConfig.placeholder} 
@@ -555,8 +570,9 @@ class Form extends Component{
                                 handleChange = {this.handleChangeLastName}
                                 className={this.state.lastNameInputConfig.className}
                                 isDisabled={this.state.lastNameInputConfig.isDisabled}
+                                error={this.state.errors.lastName}
                             />
-                            <div className={this.state.errors.lastName===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                            <div className={Form.setStyleMsgErrorField(this.state.errors.lastName)?'msgErrorFieldHidden':'msgErrorFieldShow'}>
                                 <span>{this.state.errors.lastName}</span>
                             </div>
 
@@ -570,12 +586,13 @@ class Form extends Component{
                                 handleChange = {this.handleChangeLastSecondName}
                                 className={this.state.lastSecondNameInputConfig.className}
                                 isDisabled={this.state.lastSecondNameInputConfig.isDisabled}
+                                error={this.state.errors.secondLastName}
                             />
-                            <div className={this.state.errors.lastSecondName===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                            <div className={Form.setStyleMsgErrorField(this.state.errors.lastSecondName)?'msgErrorFieldHidden':'msgErrorFieldShow'}>
                                 <span>{this.state.errors.lastSecondName}</span>
                             </div>
 
-                            <div><label className="fieldNamesLabel">Email:</label></div>
+                            <div><label className="fieldNamesLabel">*Email:</label></div>
                             <Input 
                                 id={this.state.emailInputConfig.id}
                                 placeholder={this.state.emailInputConfig.placeholder} 
@@ -585,8 +602,9 @@ class Form extends Component{
                                 handleChange = {this.handleChangeEmail}
                                 className={this.state.emailInputConfig.className}
                                 isDisabled={this.state.emailInputConfig.isDisabled}
+                                error={this.state.errors.email}
                             />
-                            <div className={this.state.errors.email===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                            <div className={Form.setStyleMsgErrorField(this.state.errors.email)?'msgErrorFieldHidden':'msgErrorFieldShow'}>
                                 <span>{this.state.errors.email}</span>
                             </div>
 
@@ -600,12 +618,13 @@ class Form extends Component{
                                 handleChange = {this.handleChangeHomePhone}
                                 className={this.state.homePhoneInputConfig.className}
                                 isDisabled={this.state.homePhoneInputConfig.isDisabled}
+                                error={this.state.errors.homePhone}
                             />
-                            <div className={this.state.errors.homePhone===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                            <div className={Form.setStyleMsgErrorField(this.state.errors.homePhone)?'msgErrorFieldHidden':'msgErrorFieldShow'}>
                                 <span>{this.state.errors.homePhone}</span>
                             </div>
 
-                            <div><label className="fieldNamesLabel">Telefono Movil:</label></div>
+                            <div><label className="fieldNamesLabel">*Telefono Movil:</label></div>
                             <Input 
                                 id={this.state.cellPhoneInputConfig.id}
                                 placeholder={this.state.cellPhoneInputConfig.placeholder} 
@@ -615,8 +634,9 @@ class Form extends Component{
                                 handleChange = {this.handleChangeCellPhone}
                                 className={this.state.cellPhoneInputConfig.className}
                                 isDisabled={this.state.cellPhoneInputConfig.isDisabled}
+                                error={this.state.errors.cellPhone}
                             />
-                            <div className={this.state.errors.cellPhone===''?'msgErrorFieldHidden':'msgErrorFieldShow'}>
+                            <div className={Form.setStyleMsgErrorField(this.state.errors.cellPhone)?'msgErrorFieldHidden':'msgErrorFieldShow'}>
                                 <span>{this.state.errors.cellPhone}</span>
                             </div>
                             <br />

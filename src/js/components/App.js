@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../styles/styles.scss';
+import '../../css/styles.scss';
 import FormRedux from './Form';
 import AcceptanceView from './AcceptanceView'
 
@@ -28,8 +28,10 @@ class App extends Component{
     render(){
         return(
             <div>
-                <div>
-                    <h1>My React App</h1>
+                <div className={'parent'} style={{margin:'1%'}}>
+                    <h1>MKT Landing</h1>
+                    <p>Ingrese su informacion para contactarlo</p>
+                    <br />
                 </div>
                 <div>
                     {this.state.view==='FORM' && <FormRedux handleView={this.handleViews}/>}
