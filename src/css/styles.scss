@@ -83,30 +83,62 @@ h1{
     background-color: rgb(41, 150, 123);
 }
 
+.buttonHomeRecord{
+    border-radius: 12px;
+    background-color: $color;
+    color: white;
+    padding: 15px 32px;
+    outline: none;
+    cursor: pointer;
+}
+
 .acceptanceViewMessage{
     font-size: 20px;
     color: $color;
     font-family: $font-family;
 }
 
+.ulMenu{
+    margin-left: 42%;
+    margin-right: 42%;
+    list-style: none;
+}
 
+.listMenu{
+    width: fit-content;
+}
 
 @media only screen and (min-width: 1024px) { 
-
+    .ulMenu{
+        margin-left: 42%;
+        margin-right: 42%;
+    }
 }
 
 @media only screen and (min-width: 780px) and (max-width: 1000px){
-    
+    .ulMenu{
+        margin-left: 37%;
+        margin-right: 37%;
+    }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 779px){
-   
+    .ulMenu{
+        margin-left: 33%;
+        margin-right: 33%;
+    }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 599px){
-    
+    .ulMenu{
+        margin-left: 30%;
+        margin-right: 30%;
+    }
 }
 
 @media only screen and (min-width: 320px) and (max-width: 479px){
-    
+    .ulMenu{
+        margin-left: 20%;
+        margin-right: 20%;
+    }
 }

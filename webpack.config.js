@@ -9,7 +9,8 @@ module.exports = {
     entry: './src/js/index.js',
     output:{
         path: path.join(__dirname,'/build'),
-        filename: 'index_bundle.js'
+        filename: 'index_bundle.js',
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -37,7 +38,8 @@ module.exports = {
         ]
     },
     devServer: {
-        port: 9001
+        port: 9001,
+        historyApiFallback: true
     },
     plugins: [
         new HtmlWebpackPlugin({
