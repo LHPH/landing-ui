@@ -7,6 +7,7 @@ import {messages} from '../util/Messages';
 import { connect } from "react-redux";
 import { sendLanding } from '../redux/actions';
 import LandingServices from '../services/LandingServices';
+import {useParams} from "react-router-dom";
 
 class Form extends Component{
 
@@ -185,6 +186,8 @@ class Form extends Component{
 
     componentDidMount(){
         console.log('Errors: '+this.state.errors.firstName);
+        console.log(this.props.match.params.folio);
+
     }
 
     handleChangeFirstName(event){

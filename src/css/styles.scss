@@ -92,6 +92,32 @@ h1{
     cursor: pointer;
 }
 
+.buttonHomeRecord{
+    border-radius: 12px;
+    background-color: $color;
+    color: white;
+    padding: 15px 32px;
+    outline: none;
+    cursor: pointer;
+}
+
+.buttonHomeConsult{
+    border-radius: 12px;
+    background-color: $color;
+    color: white;
+    padding: 15px 28px;
+    outline: none;
+    cursor: pointer;
+}
+
+.buttonViewFolio{
+    border-radius: 10px;
+    background-color: $color;
+    color: white;
+    padding: 3px 23px;
+    outline: none;
+}
+
 .acceptanceViewMessage{
     font-size: 20px;
     color: $color;
@@ -106,6 +132,20 @@ h1{
 
 .listMenu{
     width: fit-content;
+}
+
+.table{
+    margin: auto;
+    width: 50% !important;
+    font-size: 15px;
+    font-family: monospace;
+}
+
+.alert{
+    width: 50% !important;
+    margin: auto;
+    font-size: 15px;
+    font-family: monospace;
 }
 
 @media only screen and (min-width: 1024px) { 
