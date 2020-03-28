@@ -60,11 +60,13 @@ class App extends Component{
     render(){
         return(
             <Router>
-                 <div className={'parent'} style={{margin:'1%'}}>
-                    <h1>MKT Landing</h1>
-                </div>
+                
                 {this.state.showMenu && 
-                    <div className={''}>
+                    <div className={'test'}>
+                        <div className={'parent'}>
+                            <h1>MKT Landing</h1>
+                        </div>
+                        <br />
                         <ul className={'ulMenu'}>
                             <li className={'listMenu'}>
                             <Link to="/record">
@@ -77,20 +79,11 @@ class App extends Component{
                             </li>
                             <li className={'listMenu'}>
                             <Link to="/applications">
-                                <Button id={'other'}
+                                <Button id={this.buttonHomeConfig.consultButton.id}
                                             name={this.buttonHomeConfig.consultButton.name}
                                             isDisabled={this.buttonHomeConfig.consultButton.isDisabled}
                                             className={this.buttonHomeConfig.consultButton.className}
                                     />
-                            </Link>
-                            </li>
-                            <li className={'listMenu'}>
-                            <Link to="/other">
-                                <Button id={'other2'}
-                                        name={this.buttonHomeConfig.recordButton.name}
-                                        isDisabled={this.buttonHomeConfig.recordButton.isDisabled}
-                                        className={this.buttonHomeConfig.recordButton.className}
-                                />
                             </Link>
                             </li>
                         </ul>  

@@ -158,7 +158,11 @@ class Form extends Component{
             this.landing.email = this.props.landing.email;
             this.landing.homePhone = this.props.landing.homePhone;
             this.landing.cellPhone = this.props.landing.cellPhone;
-        }        
+        }
+        
+        if(this.props.hiddenMenu!==undefined){
+            this.props.hiddenMenu();
+        }
 
         this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
         this.handleChangeSecondName = this.handleChangeSecondName.bind(this);
@@ -181,12 +185,16 @@ class Form extends Component{
         this.validateCellPhone = this.validateCellPhone.bind(this);
 
         this.enableOrDisabledFields = this.enableOrDisabledFields.bind(this);
-        Form.setStyleMsgErrorField = Form.setStyleMsgErrorField.bind(this);
+        this.setLandingReadOnly = this.setLandingReadOnly.bind(this);
+        
     }
 
     componentDidMount(){
-        console.log('Errors: '+this.state.errors.firstName);
-        console.log(this.props.match.params.folio);
+        
+        if(this.props.match!==undefined && this.props.match.params.folio!==undefined){
+            let folio = this.props.match.params.folio;
+            LandingServices.retrieveLandingByFolio(folio,this.setLandingReadOnly);
+        }
 
     }
 
@@ -521,6 +529,49 @@ class Form extends Component{
     onClickButtonConfirm(){
         LandingServices.saveLanding(this.props.landing,this.props.handleView);
         //this.props.handleView('ACCEPTANCE_SAVE_LANDING');
+    }
+
+    setLandingReadOnly(landing){
+
+        this.setState(prevState=>({
+            ...prevState,
+            firstNameInputConfig:{
+                ...prevState.firstNameInputConfig,
+                value: landing.personalData.firstName,
+                isDisabled: true
+            },
+            secondNameInputConfig:{
+                ...prevState.secondNameInputConfig,
+                value: landing.personalData.secondName,
+                isDisabled: true
+            },
+            lastNameInputConfig:{
+                ...prevState.lastNameInputConfig,
+                value: landing.personalData.lastName,
+                isDisabled: true
+            },
+            lastSecondNameInputConfig:{
+                ...prevState.lastSecondNameInputConfig,
+                value: landing.personalData.lastSecondName,
+                isDisabled: true
+            },
+            emailInputConfig:{
+                ...prevState.emailInputConfig,
+                value: landing.personalData.email,
+                isDisabled: true
+            },
+            homePhoneInputConfig:{
+                ...prevState.homePhoneInputConfig,
+                value: landing.personalData.homePhone,
+                isDisabled: true
+            },
+            cellPhoneInputConfig:{
+                ...prevState.cellPhoneInputConfig,
+                value: landing.personalData.cellPhone,
+                isDisabled: true
+            },
+            mode: 'readOnly'
+        }));
     }
 
     static setStyleMsgErrorField(value){

@@ -99,6 +99,7 @@ h1{
     padding: 15px 32px;
     outline: none;
     cursor: pointer;
+    margin-bottom: 8%;
 }
 
 .buttonHomeConsult{
@@ -108,6 +109,7 @@ h1{
     padding: 15px 28px;
     outline: none;
     cursor: pointer;
+    margin-bottom: 8%;
 }
 
 .buttonViewFolio{
@@ -148,6 +150,13 @@ h1{
     font-family: monospace;
 }
 
+.test{
+    margin: 0 auto;
+    background-color: cadetblue;
+    width: 73%;
+    min-height: 657px;;
+    height: auto !important;
+}
 @media only screen and (min-width: 1024px) { 
     .ulMenu{
         margin-left: 42%;

@@ -30,15 +30,17 @@ class LandingRecord extends Component{
 
     render(){
         return(
-            <div>
-                <div className={'parent'}>
-                    <p>Ingrese su informacion para contactarlo</p>
-                </div>
-                <div>
-                    {this.state.view==='FORM' && <FormRedux handleView={this.handleViews}/>}
+                <div className={'test'}>
+                    {this.state.view==='FORM' && 
+                        <div>
+                            <div className={'parent'}>
+                                <p>Ingrese su informacion para contactarlo</p>
+                            </div>
+                            <FormRedux handleView={this.handleViews}/>
+                        </div>
+                    }
                     {this.state.view==='ACCEPTANCE_SAVE_LANDING' && <AcceptanceView handleView={this.handleView} />}
                 </div>
-            </div>
         )
     };
 }
