@@ -528,7 +528,6 @@ class Form extends Component{
 
     onClickButtonConfirm(){
         LandingServices.saveLanding(this.props.landing,this.props.handleView);
-        //this.props.handleView('ACCEPTANCE_SAVE_LANDING');
     }
 
     setLandingReadOnly(landing){
@@ -552,7 +551,7 @@ class Form extends Component{
             },
             lastSecondNameInputConfig:{
                 ...prevState.lastSecondNameInputConfig,
-                value: landing.personalData.lastSecondName,
+                value: landing.personalData.secondLastName,
                 isDisabled: true
             },
             emailInputConfig:{

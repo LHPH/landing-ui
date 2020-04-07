@@ -18,7 +18,8 @@ class LandingRegistered extends Component{
         super(props);
 
         this.state = {
-            landings: []
+            landings: [],
+            numRecords: -1
         };
 
         this.props.hiddenMenu();
@@ -34,7 +35,8 @@ class LandingRegistered extends Component{
 
         this.setState(prevState =>({
             ...prevState,
-            landings: landings
+            landings: landings,
+            numRecords: landings.length
         }));
     }
 
@@ -45,7 +47,7 @@ class LandingRegistered extends Component{
         var firstName = personalData.firstName;
         var secondName = personalData.secondName;
         var lastName = personalData.lastName;
-        var lastSecondName = personalData.lastSecondName;
+        var lastSecondName = personalData.secondLastName;
 
         if(secondName!==null && secondName!==''){
             fullName = `${firstName} ${secondName}`;
@@ -63,8 +65,8 @@ class LandingRegistered extends Component{
         return  landings.map((landing) => {
                 return  <tr key={landing.folio}>
                             <td>{landing.folio}</td>
-                            <td>{LandingRegistered.createFullName(landing.personalData)}</td>
-                            <td>{landing.personalData.cellPhone}</td>
+                            <td>{LandingRegistered.createFullName(landing)}</td>
+                            <td>{landing.cellPhone}</td>
                             <td>{landing.dateCreated}</td>
                             <td>
                                 <Link to={`/applications/${landing.folio}`}>
@@ -82,7 +84,7 @@ class LandingRegistered extends Component{
         return(
             <div className={'parent'}>
                 <br />
-                    {this.state.landings.length>0 && 
+                    {this.state.numRecords>0 && 
                          <Table striped bordered hover size="sm">
                             <thead>
                                 <tr>
@@ -98,9 +100,14 @@ class LandingRegistered extends Component{
                             </tbody>
                             </Table>
                     }
-                    {this.state.landings.length===0 && 
+                    {this.state.numRecords===0 && 
                       <Alert variant={'info'}>
                         No hay landings registradas en el sistema  
+                      </Alert>
+                    }
+                    {this.state.numRecords===-1 && 
+                      <Alert variant={'info'}>
+                        Buscando Landings...  
                       </Alert>
                     }
             </div>

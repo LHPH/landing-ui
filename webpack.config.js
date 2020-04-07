@@ -38,7 +38,7 @@ module.exports = {
         ]
     },
     devServer: {
-        port: 9001,
+        port: 9000,
         historyApiFallback: true
     },
     plugins: [
@@ -50,7 +50,7 @@ module.exports = {
             filename: 'styles_bundle.css',
             chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
         }),
-        new Dotenv({path:`./.env.${isDevelopment !== "production" ? "prod" : "dev"}`})
+        new Dotenv({path:`./.env.${isDevelopment !== "production" ? "dev" : "prod"}`})
     ]
 }//https://github.com/babel/babel/issues/6808
 //https://developerhandbook.com/webpack/how-to-configure-scss-modules-for-webpack/

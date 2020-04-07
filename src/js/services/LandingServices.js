@@ -1,72 +1,49 @@
 const URL_LANDING_SERVICES=process.env.REACT_APP_URL_SAVE_LANDINGS;
 
+const axios = require('axios');
 
 export default class LandingServices{
 
     static saveLanding(data,callback){
 
-        callback('ACCEPTANCE_SAVE_LANDING');
+        let request = {
+            personalData:{
+                firstName: data.firstName,
+                secondName: data.secondName,
+                lastName: data.lastName,
+                secondLastName: data.lastSecondName,
+                email: data.email,
+                cellPhone: data.cellPhone,
+                homePhone: data.homePhone
+            }
+        }
+        console.log(request);
+        axios.post(URL_LANDING_SERVICES,request).then(response => {
+            if(response.status===200){
+                callback('ACCEPTANCE_SAVE_LANDING');
+            }
+        })
+        
     }
 
     static retrieveLandings(callback){
 
-        let landing = [
-            {
-                folio:1212,
-                personalData:{
-                    firstName: 'Luis',
-                    secondName: 'Humberto',
-                    lastName: 'Ponce',
-                    lastSecondName: 'Hermosillo',
-                    cellPhone: '7223980598',
-                    homePhone: '5534324325',
-                },
-                dateCreated: '10/01/2022'
-            },
-            {
-                folio:1213,
-                personalData:{
-                    firstName: 'Luis',
-                    secondName: 'Humberto',
-                    lastName: 'Ponce',
-                    lastSecondName: 'Hermosillo',
-                    cellPhone: '7223980598',
-                    homePhone: '5534324325',
-                },
-                dateCreated: '10/01/2022'
-            },
-            {
-                folio:1214,
-                personalData:{
-                    firstName: 'Luis',
-                    secondName: 'Humberto',
-                    lastName: 'Ponce',
-                    lastSecondName: 'Hermosillo',
-                    cellPhone: '7223980598',
-                    homePhone: '5534324325',
-                },
-                dateCreated: '10/01/2022'
+        axios.get(URL_LANDING_SERVICES).then(response => {
+            if(response.status===200){
+                callback(response.data);
             }
-
-        ];
-        //landing = [];
-        callback(landing);
+            else{
+                callback([]);
+            }
+        });
     }
 
     static retrieveLandingByFolio(folio, callback){
-        let landing = {
-            folio:1212,
-                personalData:{
-                    firstName: 'Luis',
-                    secondName: 'Humberto',
-                    lastName: 'Ponce',
-                    lastSecondName: 'Hermosillo',
-                    cellPhone: '7223980598',
-                    homePhone: '5534324325',
-                },
-                dateCreated: '10/01/2022'
-        };
-        callback(landing);
+        axios.get(`${URL_LANDING_SERVICES}/${folio}`).then(response => {
+            if(response.status===200){
+                callback(response.data);
+            }
+        });
     }
 
 }
